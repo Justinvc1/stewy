@@ -9,7 +9,7 @@ function paint(){const el=document.getElementById('google-content');if(!el||!con
  if(!connection){el.innerHTML='<p role="status">Checking Google connection…</p>';return}
 if(!connection){el.innerHTML=`<div class="notice"><strong>Google Maps Connected</strong><p>This StackBlitz edition runs the sample planner. Live Google calls need a separately hosted, authenticated backend. Keep Google API keys out of this browser-based workspace.</p></div>`;return}
 
-
+if(!connection.signedIn){el.innerHTML='<p>Sign in to search Google places and check return estimates.</p><a class="primary" href="/api/google/auth">Sign in with Google Account</a>';return}
  if(!connection.signedIn){el.innerHTML='<p>Sign in to search Google places and check return estimates.</p><a class="primary" href="/signin-with-chatgpt?return_to=%2F%23discover" target="_top">Sign in with ChatGPT</a><p class="inline-note">Your searches and route addresses are sent to Google to provide results. <a href="https://policies.google.com/privacy" target="_blank" rel="noopener">Google privacy policy</a> · <a href="https://maps.google.com/help/terms_maps/" target="_blank" rel="noopener">Google Maps terms</a></p>';return}
  const stale=result&&Date.now()-result.checkedAt>180000;
  el.innerHTML=`<p>Search near <strong>${esc(context.city.name)}</strong>. Check one outing against your saved layover deadline. <button class="text-button" data-action="trip">Edit layover</button></p><form id="google-search" class="search-row"><label class="search-box"><input name="query" aria-label="Search Google places" value="${esc(query)}" maxlength="180" required placeholder="Restaurants, museums, parks…"></label><button class="primary" ${busy?'disabled':''}>${busy?'Checking…':'Search Google'}</button></form>
